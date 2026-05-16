@@ -28,8 +28,8 @@
 
 .heroContent {
   position: absolute;
-  bottom: 0; left: 0; right: 0;
-  padding: 0 2.5rem 2.2rem;
+  top: 0; left: 0; right: 0;
+  padding: 2.2rem 2.5rem 0;
   max-width: 800px;
   margin: 0 auto;
   z-index: 2;
