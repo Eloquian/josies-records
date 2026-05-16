@@ -1,0 +1,80 @@
+.sourceGroup { margin-bottom: 1.5rem; }
+.sourceLabel { margin-bottom: 0.6rem; }
+.matchList { display: flex; flex-direction: column; gap: 0.5rem; }
+
+.matchCard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  text-align: left;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  padding: 0.85rem 1rem;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  font-family: 'Jost', sans-serif;
+}
+
+.matchCard:hover {
+  border-color: var(--amber-dim);
+  background: var(--surface2);
+}
+
+.matchCard.chosen {
+  border-color: var(--amber);
+  background: var(--amber-glow);
+}
+
+.matchThumb {
+  width: 50px; height: 50px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    #0a0907 20%, #3a3020 22%, #3a3020 46%, #0a0907 48%);
+  flex-shrink: 0;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.6);
+}
+
+.matchThumb::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--amber-dim);
+}
+
+.matchInfo { flex: 1; min-width: 0; }
+
+.matchTitle {
+  font-size: 0.94rem;
+  font-weight: 400;
+  color: var(--body);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.matchMeta {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.67rem;
+  color: var(--mid);
+  margin-top: 0.2rem;
+}
+
+.matchGenre {
+  font-size: 0.78rem;
+  color: var(--dim);
+  margin-top: 0.1rem;
+}
+
+.matchCheck {
+  font-size: 0.9rem;
+  color: var(--amber);
+  width: 1.2rem;
+  flex-shrink: 0;
+  text-align: center;
+}
