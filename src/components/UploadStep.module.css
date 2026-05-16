@@ -1,136 +1,42 @@
-.wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-  padding-top: 2rem;
-}
-
-.intro {
-  text-align: center;
-}
-
-.heading {
-  font-family: var(--font-display);
-  font-size: 2.2rem;
-  font-weight: 700;
-  color: var(--ink);
-  margin-bottom: 0.4rem;
-}
-
-.sub {
-  color: var(--ink-light);
-  font-size: 1rem;
-  font-weight: 300;
-}
-
 .dropzone {
-  width: 100%;
-  max-width: 480px;
-  border: 2px dashed var(--cream-dark);
-  border-radius: 12px;
-  padding: 3rem 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
+  border: 1px dashed var(--border2);
+  border-radius: 8px;
+  background: var(--surface);
+  padding: 3.5rem 2rem;
+  text-align: center;
   cursor: pointer;
   transition: border-color 0.2s, background 0.2s;
-  background: white;
 }
 
 .dropzone:hover, .dragging {
-  border-color: var(--groove);
-  background: rgba(200, 80, 42, 0.02);
+  border-color: var(--amber-dim);
+  background: var(--surface2);
 }
 
-/* Vinyl record illustration */
-.record {
-  width: 120px;
-  height: 120px;
-  background: var(--wax);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow:
-    0 0 0 8px #1a1410,
-    0 0 0 10px #2d2218,
-    0 0 0 20px #1a1410,
-    0 0 0 22px #2d2218,
-    0 0 0 32px #1a1410,
-    0 0 0 34px #2d2218;
-  animation: spin 8s linear infinite;
-}
-
-.dropzone:hover .record {
-  animation-duration: 3s;
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.recordInner {
-  width: 40px;
-  height: 40px;
-  background: var(--wax);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: counter-spin 8s linear infinite;
-}
-
-.dropzone:hover .recordInner {
-  animation-duration: 3s;
-}
-
-@keyframes counter-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(-360deg); }
-}
-
-.recordLabel {
-  width: 30px;
-  height: 30px;
-  background: var(--groove);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.recordLabel span {
-  font-family: var(--font-mono);
-  font-size: 0.4rem;
-  color: white;
-  letter-spacing: 0.05em;
+.dropIcon {
+  color: var(--amber-dim);
+  margin-bottom: 1rem;
 }
 
 .dropText {
-  font-size: 0.95rem;
-  color: var(--ink);
-  font-weight: 500;
-  margin-top: 0.5rem;
+  font-size: 1.05rem;
+  color: var(--body);
+  margin-bottom: 0.35rem;
+  font-weight: 400;
 }
 
-.dropHint {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--ink-light);
+.dropSub {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--dim);
   letter-spacing: 0.05em;
 }
 
-/* Preview */
 .previewWrap {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 1rem;
-  width: 100%;
-  max-width: 480px;
 }
 
 .preview {
@@ -138,74 +44,27 @@
   max-height: 320px;
   object-fit: contain;
   border-radius: 8px;
-  border: 1px solid var(--cream-dark);
-  background: white;
+  border: 1px solid var(--border2);
+  background: var(--surface);
 }
 
 .changeBtn {
   background: none;
   border: none;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--ink-light);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.73rem;
+  color: var(--dim);
   cursor: pointer;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 
-.changeBtn:hover {
-  color: var(--groove);
-}
-
-/* Actions */
-.identifyBtn {
-  background: var(--groove);
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 0.9rem 2.5rem;
-  font-size: 1rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  transition: background 0.2s, transform 0.1s;
-}
-
-.identifyBtn:hover:not(:disabled) {
-  background: var(--groove-light);
-  transform: translateY(-1px);
-}
-
-.identifyBtn:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-.spinner {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.2rem;
-}
-
-.dots {
-  animation: blink 1.2s step-end infinite;
-}
-
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  33% { opacity: 0.3; }
-  66% { opacity: 0.6; }
-}
+.changeBtn:hover { color: var(--mid); }
 
 .error {
-  color: #c0392b;
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  background: #fdf0ee;
-  border: 1px solid #f5c6bc;
-  border-radius: 6px;
-  padding: 0.6rem 1rem;
-  max-width: 480px;
-  width: 100%;
-  text-align: center;
+  color: #e07070;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.78rem;
+  margin-top: 0.75rem;
 }

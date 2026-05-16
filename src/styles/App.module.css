@@ -1,17 +1,31 @@
-.app {
-  min-height: 100vh;
+.stepNav {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
   display: flex;
-  flex-direction: column;
-  background: var(--cream);
-  background-image:
-    radial-gradient(ellipse at 20% 50%, rgba(200, 80, 42, 0.04) 0%, transparent 60%),
-    radial-gradient(ellipse at 80% 20%, rgba(201, 168, 76, 0.05) 0%, transparent 50%);
+  padding: 0 2.5rem;
+  overflow-x: auto;
 }
 
+.stepTab {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--dim);
+  padding: 0.85rem 1.1rem;
+  cursor: pointer;
+  border: none;
+  border-bottom: 1.5px solid transparent;
+  background: none;
+  white-space: nowrap;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.stepTab:hover:not(:disabled) { color: var(--mid); }
+.stepTab.active { color: var(--amber); border-bottom-color: var(--amber); }
+.stepTab:disabled { opacity: 0.35; cursor: default; }
+
 .main {
-  flex: 1;
-  max-width: 860px;
-  width: 100%;
+  max-width: 760px;
   margin: 0 auto;
-  padding: 2rem 1.5rem 4rem;
+  padding: 2.5rem 2.5rem 5rem;
 }

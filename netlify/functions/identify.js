@@ -35,7 +35,8 @@ export default async function handler(req, context) {
   "catalogueNo": "catalogue number",
   "year": "year of release",
   "country": "country of manufacture",
-  "format": "LP / 7\" / 12\" / EP etc",
+  "format": "LP / 7\\\" / 12\\\" / EP etc",
+  "side": "Side A / Side B / Side 1 / Side 2 etc",
   "speed": "33 / 45 / 78 RPM",
   "genre": "primary genre",
   "style": "sub-genre or style",
@@ -67,17 +68,22 @@ Return only the JSON object, no other text.`
     return new Response(JSON.stringify({ error: 'Could not parse label data from image' }), { status: 500 })
   }
 
-  // Step 2: Discogs lookup
+  // Compute confidence from how many key fields were found
+  const keyFields = [labelData.artist, labelData.title, labelData.label, labelData.catalogueNo]
+  const found = keyFields.filter(Boolean).length
+  const confidence = found >= 3 ? 'high' : found >= 1 ? 'medium' : 'low'
+
+  // Step 2: Discogs lookup — return up to 5 matches
   const discogsToken = process.env.DISCOGS_TOKEN
   const query = [labelData.artist, labelData.title].filter(Boolean).join(' ')
 
-  let discogsData = {}
+  let matches = []
   if (query) {
     try {
       const params = new URLSearchParams({
         q: query,
         type: 'release',
-        per_page: '1',
+        per_page: '5',
         token: discogsToken,
       })
       if (labelData.artist) params.set('artist', labelData.artist)
@@ -90,20 +96,31 @@ Return only the JSON object, no other text.`
 
       if (discogsRes.ok) {
         const discogsJson = await discogsRes.json()
-        const result = discogsJson.results?.[0]
-        if (result) {
-          discogsData = {
+        matches = (discogsJson.results || []).slice(0, 5).map(r => {
+          const parts = (r.title || '').split(' - ')
+          return {
+            id: String(r.id),
+            artist: parts[0] || labelData.artist || null,
+            title: parts.slice(1).join(' - ') || labelData.title || null,
+            label: r.label?.[0] || null,
+            catno: r.catno || null,
+            year: r.year ? String(r.year) : null,
+            country: r.country || null,
+            format: r.format?.[0] || null,
+            genre: r.genre?.[0] || null,
+            style: r.style?.[0] || null,
             source: 'Discogs',
-            sourceId: String(result.id),
-            sourceUrl: result.uri ? `https://www.discogs.com${result.uri}` : null,
-            estimatedValue: result.community?.have
-              ? await getDiscogsValue(result.id, discogsToken)
-              : null,
-            // Fill gaps from Discogs if Gemini missed them
-            genre: labelData.genre || result.genre?.[0] || null,
-            style: labelData.style || result.style?.[0] || null,
-            country: labelData.country || result.country || null,
-            year: labelData.year || result.year || null,
+            sourceUrl: r.uri ? `https://www.discogs.com${r.uri}` : null,
+          }
+        })
+
+        // Fetch estimated value only for the top match
+        if (matches.length > 0) {
+          try {
+            const value = await getDiscogsValue(matches[0].id, discogsToken)
+            if (value) matches[0].estimatedValue = value
+          } catch {
+            // value fetch failed — continue without it
           }
         }
       }
@@ -112,37 +129,22 @@ Return only the JSON object, no other text.`
     }
   }
 
-  const combined = {
-    ...labelData,
-    ...discogsData,
-    // Label data takes priority for core fields
-    artist: labelData.artist || discogsData.artist || null,
-    title: labelData.title || discogsData.title || null,
-    label: labelData.label || null,
-    catalogueNo: labelData.catalogueNo || null,
-  }
-
-  return new Response(JSON.stringify(combined), {
+  return new Response(JSON.stringify({ ...labelData, confidence, matches }), {
     status: 200,
     headers: { 'Content-Type': 'application/json' }
   })
 }
 
 async function getDiscogsValue(releaseId, token) {
-  try {
-    const res = await fetch(
-      `https://api.discogs.com/marketplace/price_suggestions/${releaseId}`,
-      { headers: { 'User-Agent': 'JosiesRecordCatalogue/1.0', 'Authorization': `Discogs token=${token}` } }
-    )
-    if (!res.ok) return null
-    const data = await res.json()
-    // Get "Very Good Plus" price if available
-    const vg = data['Very Good Plus (VG+)']?.value
-    if (vg) return `$${vg.toFixed(2)}`
-    const good = data['Good (G)']?.value
-    if (good) return `$${good.toFixed(2)}`
-    return null
-  } catch {
-    return null
-  }
+  const res = await fetch(
+    `https://api.discogs.com/marketplace/price_suggestions/${releaseId}`,
+    { headers: { 'User-Agent': 'JosiesRecordCatalogue/1.0', 'Authorization': `Discogs token=${token}` } }
+  )
+  if (!res.ok) return null
+  const data = await res.json()
+  const vg = data['Very Good Plus (VG+)']?.value
+  if (vg) return `$${vg.toFixed(2)}`
+  const good = data['Good (G)']?.value
+  if (good) return `$${good.toFixed(2)}`
+  return null
 }
