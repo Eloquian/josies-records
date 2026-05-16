@@ -33,7 +33,7 @@ In Netlify → Site settings → Environment variables, add:
 | `GEMINI_API_KEY` | Your Gemini API key from Google AI Studio |
 | `DISCOGS_TOKEN` | Your Discogs developer token |
 | `GOOGLE_SERVICE_ACCOUNT_JSON` | Entire contents of service account JSON (one line) |
-| `SPREADSHEET_ID` | `1jEKXGWGJ9YL6iRj8Q3YlClSvnK1UunVe-_pDBNfSwrA` |
+| `SPREADSHEET_ID` | `your_spreadsheet_id_here` |
 | `SHEET_NAME` | `Catalogue` |
 
 ### 4. Ensure Sheet Headers
