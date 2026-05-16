@@ -12,6 +12,7 @@
   object-fit: cover;
   object-position: center 35%;
   filter: brightness(0.42) saturate(0.65);
+  z-index: 0;
 }
 
 .heroFade {
@@ -22,6 +23,7 @@
     rgba(10,9,7,0.0) 25%,
     rgba(10,9,7,0.98) 100%
   );
+  z-index: 1;
 }
 
 .heroContent {
@@ -30,6 +32,7 @@
   padding: 0 2.5rem 2.2rem;
   max-width: 800px;
   margin: 0 auto;
+  z-index: 2;
 }
 
 .heroEyebrow {
@@ -58,8 +61,6 @@
   font-weight: 600;
   letter-spacing: -0.01em;
   line-height: 1;
-  background: var(--heading-grad);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #e8d5b0;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.7);
 }
