@@ -1,0 +1,85 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-top: 4rem;
+  gap: 1.5rem;
+}
+
+.disc {
+  width: 110px;
+  height: 110px;
+  background: var(--wax);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 0 0 8px #1a1410,
+    0 0 0 10px var(--groove),
+    0 0 0 20px #1a1410;
+  animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes pop {
+  from { transform: scale(0.5); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.discInner {
+  width: 40px;
+  height: 40px;
+  background: var(--groove);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.discLabel {
+  width: 28px;
+  height: 28px;
+  background: var(--wax);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tick {
+  color: var(--groove);
+  font-size: 0.9rem;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: var(--ink);
+  font-style: italic;
+}
+
+.detail {
+  color: var(--ink-light);
+  font-size: 1rem;
+  max-width: 400px;
+  line-height: 1.6;
+}
+
+.btn {
+  background: var(--groove);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.9rem 2.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-top: 1rem;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.btn:hover {
+  background: var(--groove-light);
+  transform: translateY(-1px);
+}

@@ -1,0 +1,17 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--cream);
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(200, 80, 42, 0.04) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(201, 168, 76, 0.05) 0%, transparent 50%);
+}
+
+.main {
+  flex: 1;
+  max-width: 860px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
